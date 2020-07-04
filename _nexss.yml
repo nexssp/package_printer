@@ -1,0 +1,16 @@
+name: Printer
+author: Marcin Polak <mapoart@gmail.com>
+debug: true
+sequences:
+  default:
+    - name: src/defaultPrinter.ahk --nxsAs=printerName
+    - name: src/print.js
+  get:
+    - name: src/defaultPrinter.ahk
+  set:
+    - name: src/setPrinter.ahk
+  list:
+    - name: src/listPrinters.au3
+commands:
+  - name: init
+    command: scoop install ghostscript
