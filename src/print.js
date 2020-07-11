@@ -60,7 +60,7 @@ NexssStdout.nxsIn.forEach((element) => {
   }
 
   const command =
-    'gswin64c -sDEVICE=mswinpr2 -dBATCH -dNOPAUSE -dFitPage -sOutputFile="%printer%' +
+    'gswin64c -q -sDEVICE=mswinpr2 -dBATCH -dNOPAUSE -dFitPage -sOutputFile="%printer%' +
     printerName +
     '"';
 
