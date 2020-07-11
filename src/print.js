@@ -7,11 +7,17 @@ const {
 const NexssIn = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssIn.js`);
 let NexssStdout = NexssIn();
 
-process.chdir(NexssStdout.cwd);
+try {
+  process.chdir(NexssStdout.cwd);
+} catch (error) {
+  console.error("ERRRORRRRRR!!!!cwd", NexssStdout.cwd);
+  process.exit(1);
+}
 
 const availableTypes = [".pdf"];
 if (!NexssStdout.nxsIn) {
   nxsError("Add files to be printed: " + availableTypes.join(", "));
+  console.error(NexssStdout);
   process.exit(1);
 }
 
@@ -24,6 +30,22 @@ let printerName = "Microsoft Print to PDF";
 if (NexssStdout.printerName) {
   printerName = NexssStdout.printerName;
 }
+
+// Check if documents for printing exists
+let doesNotExists = [];
+NexssStdout.nxsIn.forEach((element) => {
+  if (!fs.existsSync(element)) {
+    doesNotExists.push(element);
+  }
+});
+
+if (doesNotExists.length > 0) {
+  nxsError("Nothing will be printed as can't find document(s):");
+  nxsError(doesNotExists);
+  process.exit(1);
+}
+
+// All documents exists, printing
 NexssStdout.nxsIn.forEach((element) => {
   const extension = path.extname(element);
 
@@ -68,4 +90,5 @@ NexssStdout.nxsOut = result;
 if (errors.length > 0) NexssStdout.nxsOut_2 = errors;
 delete NexssStdout.nxsIn;
 delete NexssStdout.resultField_1;
+
 process.stdout.write(JSON.stringify(NexssStdout));
