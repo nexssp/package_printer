@@ -7,10 +7,12 @@ const {
 const NexssIn = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssIn.js`);
 let NexssStdout = NexssIn();
 
+// console.log(NexssStdout);
+
 try {
   process.chdir(NexssStdout.cwd);
 } catch (error) {
-  console.error("ERRRORRRRRR!!!!cwd", NexssStdout.cwd);
+  console.error("Printer/ print.js / chdir error: ", NexssStdout.cwd);
   process.exit(1);
 }
 
@@ -33,6 +35,11 @@ if (NexssStdout.printerName) {
 
 // Check if documents for printing exists
 let doesNotExists = [];
+
+if (!Array.isArray(NexssStdout.nxsIn)) {
+  NexssStdout.nxsIn = [NexssStdout.nxsIn];
+}
+
 NexssStdout.nxsIn.forEach((element) => {
   if (!fs.existsSync(element)) {
     doesNotExists.push(element);
